@@ -1,35 +1,19 @@
 <template>
     <div>
         <div><Navbar/></div>
+        <div class="divsidcen">
+          <div class="sidenav">
+            <div @click="activeTab = 'Checkone'" class="abc">Computer Software</div>
+            <div @click="activeTab = 'Checktwo'" class="abc">Computer Science</div>
+            <div @click="activeTab = 'Checkthree'" class="abc">Engineering</div>
+          </div>
         <div class="center">
-            <div id="checkboxes">
-                <div class="listcheck">
-                       <div><li><input type="checkbox"> C++</li></div>
-                        <div>Programming</div>
-                        <div><input type="checkbox"> SQL</div>
-                        <div><input type="checkbox"> Database</div>
-                        <div><input type="checkbox"> C++</div>
-                        <div>Programming</div>
-                        <div><input type="checkbox"> PHP</div>
-                        <div><input type="checkbox"> AngularJS</div>
-                        <div><input type="checkbox"> ExpressJS</div>
-                        <div><input type="checkbox"> Ruby</div>
-                        <div>Programming</div>
-                        <div><input type="checkbox"> Git</div>
-                        <div><input type="checkbox"> Sublime</div>
-                        <div><input type="checkbox"> C</div>
-                        <div>Programming</div>
-                        <div><input type="checkbox"> MySQL</div>
-                        <div><input type="checkbox"> Assembly</div>
-                        <div>Language</div>
-                        <div><input type="checkbox"> Visual Basic</div>
-                        <div><input type="checkbox"> Heroku</div>
-                        <div><input type="checkbox"> Javascript</div>
-                        <div>Programming</div>
-
-                </div>
-            </div>
+         <Checkone v-if="activeTab === 'Checkone'" :source="checkedbox" @save="save"/>
+         <Checktwo v-if="activeTab === 'Checktwo'"/>
+         <Checkthree v-if="activeTab === 'Checkthree'"/>
         </div>
+    </div>
+
         <button class="prevbutton" @click="prev()">Previous</button>
     <button class="nextbutton" @click="next()">Next</button>
     </div>
@@ -37,31 +21,58 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue'
+import Checkone from '@/components/Checkone.vue'
+import Checktwo from '@/components/Checktwo.vue'
+import Checkthree from '@/components/Checkthree.vue'
+import swal from 'sweetalert'
 export default{
+  data () {
+    return {
+      activeTab: 'Checkone',
+      checkedbox: []
+    }
+  },
   components: {
-    Navbar
+    Navbar,
+    Checkone,
+    Checktwo,
+    Checkthree
   },
   methods: {
     prev () {
       this.$router.push('/profile')
     },
     next () {
-      this.$router.push('/interview')
+      if (localStorage.getItem('checkone') === null || localStorage.getItem('checkone') === null) {
+        swal('', 'Check some items', 'error')
+      } else {
+        // localStorage.setItem('quentinTarantino', JSON.stringify())
+        this.$router.push('/interview')
+      }
+    },
+    save (obj) {
+      if (obj.number === 1) {
+        const array = []
+        this.checkedbox.push(...obj.check)
+        array.push(...this.checkedbox)
+        localStorage.setItem('checkone', JSON.stringify(array))
+      }
     }
   }
 }
+
 </script>
 <style scoped>
 .center{
     margin: auto;
     margin-top:40px;
     width: 50%;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     padding: 10px;
-    height:450px;
+    height:480px;
     display: flex;
     justify-content: space-between;
-    flex-wrap:wrap;
+    margin-left: 90px;
 }
 #checkboxes label {
   float: left;
@@ -90,6 +101,7 @@ export default{
     cursor: pointer;
 }
 .prevbutton{
+  /* margin-left:325px; */
     height:40px;
     width:80px;
     border:none;
@@ -97,4 +109,23 @@ export default{
     border-radius: 25px;
     cursor: pointer;
 }
+.divsidcen{
+  display: flex;
+}
+.sidenav{
+margin-left:150px;
+  margin-top: 40px;
+
+}
+.abc{
+  height:40px;
+  width:150px;
+  border-radius: 15px;
+  border:1px solid black;
+  background-color: rgba(238, 143, 20, 0.911);
+  margin-bottom:5px;
+  cursor: pointer;
+  padding-top: 10px;
+}
+
 </style>

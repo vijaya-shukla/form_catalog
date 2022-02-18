@@ -3,18 +3,18 @@
         <div><Navbar/></div>
         <div class="center">
             <div class="text"><label>Name <sup style="color:red;">*</sup></label><input id="one" type="text" required placeholder="Name" v-model="name"></div>
-            <div class="text">Email <sup style="color:red;">*</sup><input id="two" type="text" placeholder="Email" required v-model="email" @change="isEmailValid">
+            <div class="text">Email <sup style="color:red;">*</sup><input id="two" type="text" placeholder="Email" required v-model="email" @input="isEmailValid">
            <div>
-               <sub v-show="wrongEmail" style="color:red">Incorrect email address</sub>
+               <sub v-show="wrongEmail" style="color:red">Incorrect email address <br> Ex:abc@gmail.com</sub>
                </div>
             </div>
-            <div class="text">What are you? <sup style="color:red;">*</sup><input class="univstudent" type="radio" name="radio" />University Student <input type="radio" name="radio" />Professional</div>
+            <div class="text">What are you?<input class="univstudent" value="University Student" type="radio" name="radio" v-model="unipro"/>University Student <input type="radio" value="Professional" name="radio" v-model="unipro"/>Professional</div>
             <div class="text">University <sup style="color:red;">*</sup><input id="two" type="text" required placeholder="University" v-model="university"></div>
             <div class="text">Major <sup style="color:red;">*</sup><input id="two" type="text" required placeholder="Major" v-model="major"></div>
                 <div id= "text1" class="selectdiv">
                 Graduation Date <sup style="color:red;">*</sup><input type="date" id="two" placeholder="Graduation Date" v-model="graddate">
                 </div>
-            <div id="text1">Do You have a tax id? <input type="radio" name="tax" />I have a tax id <input type="radio" name="tax" />I don't have a tax id</div>
+            <div id="text1">Do You have a tax id? <span> <input type="radio" value="I have a tax ID" name="I have a tax ID" v-model="taxvalue"/>I have a tax id</span> <span><input type="radio" value="I don't have a tax ID" name="I don't have a tax ID" v-model="taxvalue"/>I don't have a tax id</span></div>
             <div id="text1">Mobile <sup style="color:red;">*</sup><input id="two" type="text" required="" placeholder="Mobile" v-model="value" @input="acceptNumber"></div>
 
         </div>
@@ -38,7 +38,9 @@ export default{
       university: null,
       major: null,
       graddate: null,
-      value: null
+      value: null,
+      taxvalue: null,
+      unipro: null
     }
   },
   components: {
@@ -65,6 +67,7 @@ export default{
     //   }
     // },
     next () {
+      console.log(this.tax)
       if (this.name === null ||
         this.email === null ||
         this.value === null ||
@@ -82,6 +85,8 @@ export default{
         localStorage.setItem('university', this.university)
         localStorage.setItem('major', this.major)
         localStorage.setItem('graduationDate', this.graddate)
+        localStorage.setItem('taxid', this.taxvalue)
+        localStorage.setItem('univerradio', this.unipro)
         this.$router.push('/profile')
       }
     }

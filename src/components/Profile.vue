@@ -2,7 +2,9 @@
     <div>
         <div><Navbar/></div>
         <div class="center">
-            <div>About You<textarea id="ask" cols="25" rows="5" placeholder="write a short bio" v-model="aboutyou"></textarea></div>
+           <div>
+                <label>About You</label><textarea id="ask" cols="25" rows="5" placeholder="write a short bio" v-model="aboutyou"></textarea>
+            </div>
             <div>Teaching Experience<textarea id="ask" cols="25" rows="5" placeholder="tell us about your teaching experience" v-model="teachingarea"></textarea></div>
             <div>
             <div class="work">
@@ -90,14 +92,17 @@
 </template>
 <script>
 import Navbar from '@/components/Navbar.vue'
+import swal from 'sweetalert'
 export default {
   data () {
     return {
       aboutyou: null,
       teachingarea: null,
       workhistory: null,
-      addwork: [{ work: '' }],
-      addedu: [{edu: ''}]
+      addwork: [{ work: '', activeFrom: '', activeTo: '' }],
+      addeducation: [{ ed: '' }],
+      addanotherjob: false,
+      addanotherschool: false
     }
   },
   components: {
@@ -111,6 +116,43 @@ export default {
       this.$router.push('/personal')
     },
     next () {
+      if (
+        this.aboutYou === null ||
+        this.teachingExperience === null ||
+        this.addwork.work === '' ||
+        this.addwork.activeFrom === null ||
+        this.addwork.activeTo === null ||
+        this.addeducation.education === '' ||
+        this.addeducation.enrolled === null ||
+        this.addeducation.graduated === null
+      ) {
+        swal({
+          text: 'Please fill all the details',
+          icon: 'warning'
+        })
+        return
+      }
+      if (this.addwork.activeTo < this.addwork.activeFrom) {
+        console.log('Hi')
+        swal({
+          text: 'Active To date should not be less than Active from date'
+        })
+        return
+      }
+      if (this.addeducation.graduated < this.addeducation.enrolled) {
+        swal({
+          text: 'The graduated date must not be earlier than the enrolled date.'
+        })
+        return
+      }
+      localStorage.setItem('aboutYou', this.aboutYou)
+      localStorage.setItem('teachingExperience', this.teachingExperience)
+      localStorage.setItem('workHistory', this.addwork.workHistory)
+      localStorage.setItem('activeFrom', this.addwork.activeFrom)
+      localStorage.setItem('activeTo', this.addwork.activeTo)
+      localStorage.setItem('education', this.addeducation.education)
+      localStorage.setItem('enrolled', this.addeducation.enrolled)
+      localStorage.setItem('graduated', this.addeducation.graduated)
       this.$router.push('/expertise')
     }
   }
@@ -133,8 +175,6 @@ export default {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-style: italic;
   font-weight: bold;
-}
-.column {
   display: inline;
 }
 #ask {
