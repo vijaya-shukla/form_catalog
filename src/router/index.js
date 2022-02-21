@@ -6,7 +6,6 @@ import Personal from '@/components/Personal'
 import Profile from '@/components/Profile'
 import Expertise from '@/components/Expertise'
 import Interview from '@/components/Interview'
-import something from '@/components/something'
 
 Vue.use(Router)
 
@@ -42,12 +41,6 @@ export default new Router({
       path: '/interview',
       name: 'Interview',
       component: Interview
-    },
-    {
-      path: '/something',
-      name: 'something',
-      component: something
-
     }
   ]
 })

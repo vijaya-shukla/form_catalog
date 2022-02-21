@@ -5,7 +5,7 @@
           <div class="sidenav">
             <ol>
               <li @click="activeTab = 'Quesone'"><b>Question #1</b></li>
-              <li @click="activeTab = 'Questwo'"><b>Question #2</b></li>
+              <li @click="activeTab = 'Questwo'" :disabled="localStorage.getItem('QuestionOne')"><b>Question #2</b></li>
               <li @click="activeTab = 'Questhree'"><b>Question #3</b></li>
               <li @click="activeTab = 'Quesfour'"><b>Question #4</b></li>
             </ol>
