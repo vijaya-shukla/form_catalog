@@ -2,29 +2,9 @@
     <div>
         <div id="checkboxes">
                 <div class="listcheck">
-                       <div><li><input type="checkbox" id="c++" value="c++" v-model="check"> C++</li></div>
-                        <div><b>Programming</b></div>
-                        <div><input type="checkbox" id="sql" value="sql" v-model="check" > SQL</div>
-                        <div><input type="checkbox" id="database" value="database" v-model="check"> Database</div>
-                        <div><input type="checkbox" id="cp" value="cp" v-model="check"> C++</div>
-                        <div><b>Programming</b></div>
-                        <div><input type="checkbox" id="php" value="php" v-model="check"> PHP</div>
-                        <div><input type="checkbox" id="angularjs" value="angularjs" v-model="check"> AngularJS</div>
-                        <div><input type="checkbox" id="expressjs" value="expressjs" v-model="check"> ExpressJS</div>
-                        <div><input type="checkbox"> Ruby</div>
-                        <div><b>Programming</b></div>
-                        <div><input type="checkbox" id="git" value="git" v-model="check"> Git</div>
-                        <div><input type="checkbox" id="sublime" value="sublime" v-model="check"> Sublime</div>
-                        <div><input type="checkbox" id="c" value="c" v-model="check"> C</div>
-                        <div><b>Programming</b></div>
-                        <div><input type="checkbox" id="mysql" value="mysql" v-model="check"> MySQL</div>
-                        <div><input type="checkbox" id="assembly" value="assembly" v-model="check"> Assembly</div>
-                        <div><b>Language</b></div>
-                        <div><input type="checkbox" id="visual" value="visual" v-model="check"> Visual Basic</div>
-                        <div><input type="checkbox" id="heroku" value="heroku" v-model="check"> Heroku</div>
-                        <div><input type="checkbox" id="javascript" value="javascript" v-model="check"> Javascript</div>
-                        <div><b>Programming</b></div>
-
+                        <div v-for="item in items" :key="item.id">
+                          <li><input type="checkbox" v-model="check" :value="item.text"> {{item.text}}</li>
+                        </div>
                 </div>
             </div>
                 <!-- <div>checked: {{checkedbox}}</div> -->
@@ -37,16 +17,32 @@ export default{
   props: ['source'],
   data () {
     return {
-      check: this.source
+      check: this.source,
+      items: [
+        {id: 0, text: 'C++'},
+        {id: 1, text: 'SQL'},
+        {id: 2, text: 'Database'},
+        {id: 3, text: 'c++'},
+        {id: 4, text: 'Php'},
+        {id: 5, text: 'AngularJs'},
+        {id: 6, text: 'ExpressJs'},
+        {id: 7, text: 'Ruby'},
+        {id: 8, text: 'Git'},
+        {id: 9, text: 'Sublime'},
+        {id: 10, text: 'C'},
+        {id: 11, text: 'MySQL'},
+        {id: 12, text: 'Assembly'},
+        {id: 13, text: 'Visual Basic'},
+        {id: 14, text: 'Heroku'},
+        {id: 15, text: 'JavaScript'}
+
+      ]
       // checkedbox: []
     }
   },
   methods: {
     addContact () {
       this.$emit('save', {check: this.check, number: 1})
-      // const array = []
-      // array.push(...this.checkedbox)
-      // localStorage.setItem('checkone', JSON.stringify(array))
     }
   }
 }

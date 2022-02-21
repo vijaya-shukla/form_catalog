@@ -6,8 +6,8 @@
             <ol>
               <li @click="activeTab = 'Quesone'"><b>Question #1</b></li>
               <li @click="activeTab = 'Questwo'"><b>Question #2</b></li>
-              <li @click="activeTab = 'Questhree'" ><b>Question #3</b></li>
-              <li @click="activeTab = 'Quesfour'" ><b>Question #4</b></li>
+              <li @click="activeTab = 'Questhree'"><b>Question #3</b></li>
+              <li @click="activeTab = 'Quesfour'"><b>Question #4</b></li>
             </ol>
           </div>
         <div class="center">
@@ -67,7 +67,9 @@ export default{
       localStorage.getItem('QuestionThree')
     },
     submit () {
-      swal('', 'Thank You for filling these details', 'success')
+      if (localStorage.getItem('email') && localStorage.getItem('aboutYou')) { swal('', 'Thank You for filling these details', 'success') } else {
+        swal('', 'Fill all the details', 'error')
+      }
     }
   }
 }

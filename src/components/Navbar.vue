@@ -58,10 +58,10 @@ button{
     color:rgba(238, 143, 20, 0.911);
     cursor: pointer;
 }
-button:hover{
+/* button:hover{
     background-color:rgba(238, 143, 20, 0.911);
     color:white;
-}
+} */
 button:focus{
     background-color:rgba(238, 143, 20, 0.911);
     color:white;

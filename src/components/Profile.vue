@@ -2,90 +2,37 @@
     <div>
         <div><Navbar/></div>
         <div class="center">
-           <div>
-                <label>About You</label><textarea id="ask" cols="25" rows="5" placeholder="write a short bio" v-model="aboutyou"></textarea>
-            </div>
-            <div>Teaching Experience<textarea id="ask" cols="25" rows="5" placeholder="tell us about your teaching experience" v-model="teachingarea"></textarea></div>
-            <div>
-            <div class="work">
-                <div>
-                    <label>Work History</label>
-                </div>
-                <div>
-                <div
-                    v-for="(input, index) in addwork"
-                    :key="`phoneInput-${index}`"
-                    class="input wrapper flex items-center"
-                >
-                <input id="ask" type="text" required placeholder="Company" v-model="input.work">
-                <div>
-                      Active From<input type="date" id="ask" name="Active From">Active To<input type="date" id="ask" name="Active to">
-                </div>
-                </div>
-            </div>
-                </div>
-                <div class="addano">
-                    Add Another
-                    <div>
-                        <svg
-                         @click="addField(input, addwork)"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            class="ml-2 cursor-pointer"
-            cursor="pointer"
-          >
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path
-              fill="green"
-              d="M11 11V7h2v4h4v2h-4v4h-2v-4H7v-2h4zm1 11C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
-            />
-          </svg>
-                    </div>
-                </div>
-            <!-- </div> -->
-            <div class="work">
-                <div>
-                <label>Education</label>
-                </div>
-                <div>
-                <div
-                    v-for="(input, index) in addedu"
-                    :key="`phoneInput-${index}`"
-                    class="input wrapper flex items-center"
-                >
-            <input id="ask" type="text" required placeholder="School">
-                <div>
-                      Enrolled<input type="date" id="ask" name="Active From">Graduated<input type="date" id="ask" name="Active to">
-                </div>
-                </div>
-                </div>
-            </div>
+            <form action="#" id='testform' name='testform' >
 
-            <div class="addano">
-                    Add Another
-                    <div>
-                        <svg
-                        @click="addField(input, addedu)"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            class="ml-2 cursor-pointer"
-            cursor="pointer"
-          >
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path
-              fill="green"
-              d="M11 11V7h2v4h4v2h-4v4h-2v-4H7v-2h4zm1 11C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
-            />
-          </svg>
-                    </div>
-                </div>
+         <div class="text textstyle">About You:</div>
+         <textarea id="askay" cols="25" rows="5" placeholder="write a short bio" v-model="aboutYou"></textarea>
+         <br><br>
 
-    </div>
-    </div>
+         <div class="text textstyle">Teaching Experience:</div>
+         <textarea id="askte" cols="25" rows="5" placeholder="tell us about your teaching experience" v-model="teachingExperience"></textarea>
+         <br><br>
+
+         <div class="text textstyle">Work History:</div>
+         <div v-for="(input, index) in addwork" :key="`${index}`">
+             <div>
+                 <input id="askco" type="text" required placeholder="Company" v-model="addwork[index].work">
+             <br><br>
+             </div>
+          <div style='margin-left:150px;float:left;'> <span class="text"> Active From</span><input type="date" id="ask" name="Active From" v-model="addwork[index].activeFrom"><span class="text"> Active To</span><input type="date" id="ask" name="Active to" v-model="addwork[index].activeTo"></div>
+          <br><br>
+          <div style='margin-left:120px' @click="addField(addwork)"> + Add another</div>
+        </div>
+          <br><br>
+          <div class="text textstyle">Education:</div>
+          <div  v-for="(input, index) in addeducation" :key="`${index}`">
+              <input id="asked" type="text" required placeholder="Education" v-model="addeducation[index].education">
+          <br><br>
+          <div style='margin-left:150px;float:left;'><span class="text">Enrolled</span><input type="date" id="ask" name="Active From" v-model="addeducation[index].enrolled"><span class="text"> Graduated</span><input type="date" id="ask" name="Active to" v-model="addeducation[index].graduated"></div>
+          <br><br>
+          <div style='margin-left:120px' @click="addFields(addeducation)"> + Add another</div>
+          </div>
+      </form>
+        </div>
     <button class="prevbutton" @click="prev()">Previous</button>
     <button class="nextbutton" @click="next()">Next</button>
     </div>
@@ -96,22 +43,52 @@ import swal from 'sweetalert'
 export default {
   data () {
     return {
-      aboutyou: null,
-      teachingarea: null,
-      workhistory: null,
+      aboutYou: null,
+      teachingExperience: null,
+      activeFrom: null,
+      activeTo: null,
+      education: null,
+      enrolled: null,
+      graduated: null,
       addwork: [{ work: '', activeFrom: '', activeTo: '' }],
       addeducation: [{ ed: '' }],
       addanotherjob: false,
-      addanotherschool: false
+      addanotherschool: false,
+      i: 0,
+      j: 0,
+      h: []
+    }
+  },
+  created () {
+    this.aboutYou = localStorage.getItem('aboutYou')
+    this.teachingExperience = localStorage.getItem('teachingExperience')
+    let n = this.$route.params.j
+    for (let t = 0; t <= n; t++) {
+      console.log('education' + t, localStorage.getItem('education' + t))
+      this.addeducation[t].education = localStorage.getItem('education' + t)
+      this.addeducation[t].enrolled = localStorage.getItem('enrolled' + t)
+      this.addeducation[t].graduated = localStorage.getItem('graduated' + t)
+      console.log('hi' + this.addeducation[1].graduated)
+    }
+  },
+  mounted () {
+    let m = this.$route.params.i
+    console.log('m' + m)
+    for (let l = 0; l <= m; l++) {
+      console.log('work' + l, localStorage.getItem('work' + l))
+      this.addwork[l].work = localStorage.getItem('work' + l)
+      this.addwork[l].activeFrom = localStorage.getItem('active From' + l)
+      this.addwork[l].activeTo = localStorage.getItem('active To' + l)
+      console.log('hiii' + this.addwork[1].activeTo)
     }
   },
   components: {
     Navbar
   },
   methods: {
-    addField (value, fieldType) {
-      fieldType.push({ value: '' })
-    },
+    // addField (value, fieldType) {
+    //   fieldType.push({ value: '' })
+    // },
     prev () {
       this.$router.push('/personal')
     },
@@ -154,22 +131,47 @@ export default {
       localStorage.setItem('enrolled', this.addeducation.enrolled)
       localStorage.setItem('graduated', this.addeducation.graduated)
       this.$router.push('/expertise')
+    },
+    addField (fieldType) {
+      const index = fieldType.length - 1
+      if (!fieldType[index].work || !fieldType[index].activeFrom || !fieldType[index].activeTo) {
+        this.addanotherjob = false
+      } else {
+        this.addanotherjob = true
+        const obj = {}
+        obj['work'] = ''
+        obj['activeFrom'] = ''
+        obj['activeTo'] = ''
+        fieldType.push(obj)
+        console.log(fieldType)
+        this.i = this.i + 1
+      }
+    },
+    addFields (fieldType) {
+      const index = fieldType.length - 1
+      if (!fieldType[index].education || !fieldType[index].enrolled || !fieldType[index].graduated) {
+        this.addanotherschool = false
+      } else {
+        this.addanotherschool = true
+        const obj = {}
+        obj['education'] = ''
+        obj['enrolled'] = ''
+        obj['graduated'] = ''
+        fieldType.push(obj)
+        console.log(fieldType)
+        this.j = this.j + 1
+      }
     }
   }
 }
 </script>
 <style scoped>
 .center {
-  margin: auto;
-  margin-top: 40px;
   width: 50%;
-  /* border: 2px solid black; */
-  padding: 10px;
+  margin-top:40px;
+  margin-left:346px;
+  overflow:scroll;
   height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: scroll;
 }
 .center > div {
   font-family: Georgia, "Times New Roman", Times, serif;
@@ -204,5 +206,20 @@ export default {
     background-color:rgba(238, 143, 20, 0.911);
     border-radius: 25px;
     cursor: pointer;
+}
+.text{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-weight: bold;
+}
+#askay{
+    margin-left: 80px;
+}
+#asked{
+    margin-left:20px;
+}
+.textstyle{
+margin-left:120px;
+float:left;
 }
 </style>

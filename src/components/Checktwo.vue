@@ -2,29 +2,9 @@
     <div>
         <div id="checkboxes">
                 <div class="listcheck">
-                       <div><li><input type="checkbox" value="c++" v-model="checkboxtwo"> C++</li></div>
-                        <div><b>CHECKTWO</b></div>
-                        <div><input type="checkbox" value="sql"> SQL</div>
-                        <div><input type="checkbox" value="database"> Database</div>
-                        <div><input type="checkbox" value="cpp"> C++</div>
-                        <div><b>CHECKTWO</b></div>
-                        <div><input type="checkbox" value="php"> PHP</div>
-                        <div><input type="checkbox" value="AngularJS"> AngularJS</div>
-                        <div><input type="checkbox" value="ExpressJS"> ExpressJS</div>
-                        <div><input type="checkbox" value="Ruby"> Ruby</div>
-                        <div><b>CHECKTWO</b></div>
-                        <div><input type="checkbox" value="Git"> Git</div>
-                        <div><input type="checkbox" value="Sublime"> Sublime</div>
-                        <div><input type="checkbox" value="c"> C</div>
-                        <div><b>CHECKTWO</b></div>
-                        <div><input type="checkbox" value="MySQL"> MySQL</div>
-                        <div><input type="checkbox" value="Assembly"> Assembly</div>
-                        <div><b>CHECKTWO</b></div>
-                        <div><input type="checkbox" value="Visual"> Visual Basic</div>
-                        <div><input type="checkbox" value="Heroku"> Heroku</div>
-                        <div><input type="checkbox" value="Javascript"> Javascript</div>
-                        <div><b>CHECKTWO</b></div>
-
+                    <div v-for="item in items" :key="item.id">
+                          <li><input type="checkbox" v-model="checkboxtwo" :value="item.text"> {{item.text}}</li>
+                        </div>
                 </div>
             </div>
                 <button @click="addContact()">Save</button>
@@ -33,16 +13,37 @@
 </template>
 <script>
 export default{
+  props: ['source'],
   data () {
     return {
-      checkboxtwo: []
+      checkboxtwo: this.source,
+      items: [
+        {id: 0, text: 'Python'},
+        {id: 1, text: 'Arrays'},
+        {id: 2, text: 'Java'},
+        {id: 3, text: 'c++'},
+        {id: 4, text: 'Php'},
+        {id: 5, text: 'HTML'},
+        {id: 6, text: 'CSS'},
+        {id: 7, text: 'Machine language'},
+        {id: 8, text: 'Git'},
+        {id: 9, text: 'High level language'},
+        {id: 10, text: 'C'},
+        {id: 11, text: 'MySQL'},
+        {id: 12, text: 'C#'},
+        {id: 13, text: 'Visual Basic'},
+        {id: 14, text: 'procedural'},
+        {id: 15, text: 'functional'}
+
+      ]
     }
   },
   methods: {
     addContact () {
-      const array = []
-      array.push(...this.checkboxtwo)
-      localStorage.setItem('checktwo', JSON.stringify(array))
+      this.$emit('save', {checkboxtwo: this.checkboxtwo, number: 2})
+    //   const array = []
+    //   array.push(...this.checkboxtwo)
+    //   localStorage.setItem('checktwo', JSON.stringify(array))
     }
   }
 }

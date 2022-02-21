@@ -9,7 +9,7 @@
           </div>
         <div class="center">
          <Checkone v-if="activeTab === 'Checkone'" :source="checkedbox" @save="save"/>
-         <Checktwo v-if="activeTab === 'Checktwo'"/>
+         <Checktwo v-if="activeTab === 'Checktwo'" :source="checkedbox" @save="save"/>
          <Checkthree v-if="activeTab === 'Checkthree'"/>
         </div>
     </div>
@@ -38,12 +38,15 @@ export default{
     Checktwo,
     Checkthree
   },
+  created () {
+    JSON.parse(localStorage.getItem('checkone'))
+  },
   methods: {
     prev () {
       this.$router.push('/profile')
     },
     next () {
-      if (localStorage.getItem('checkone') === null || localStorage.getItem('checkone') === null) {
+      if (localStorage.getItem('checkone') == null) {
         swal('', 'Check some items', 'error')
       } else {
         // localStorage.setItem('quentinTarantino', JSON.stringify())
@@ -51,9 +54,14 @@ export default{
       }
     },
     save (obj) {
+      const array = []
       if (obj.number === 1) {
-        const array = []
         this.checkedbox.push(...obj.check)
+        array.push(...this.checkedbox)
+        localStorage.setItem('checkone', JSON.stringify(array))
+      } else if (obj.number === 2) {
+        console.log(this.checkedbox)
+        this.checkedbox.push(...obj.checkboxtwo)
         array.push(...this.checkedbox)
         localStorage.setItem('checkone', JSON.stringify(array))
       }

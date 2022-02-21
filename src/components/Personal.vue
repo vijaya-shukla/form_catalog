@@ -40,8 +40,20 @@ export default{
       graddate: null,
       value: null,
       taxvalue: null,
-      unipro: null
+      unipro: null,
+      wrongEmail: null
     }
+  },
+  created () {
+    this.name = localStorage.getItem('name')
+    this.email = localStorage.getItem('email')
+    this.unipro = localStorage.getItem('univerradio')
+    this.value = localStorage.getItem('mobile')
+    this.university = localStorage.getItem('university')
+    this.major = localStorage.getItem('major')
+    this.taxvalue = localStorage.getItem('taxid')
+    // this.radiovalue = localStorage.getItem('radio')
+    this.graddate = localStorage.getItem('graduationDate')
   },
   components: {
     Navbar
@@ -81,7 +93,7 @@ export default{
       } else {
         localStorage.setItem('name', this.name)
         localStorage.setItem('email', this.email)
-        localStorage.setItem('mobile', this.mobile)
+        localStorage.setItem('mobile', this.value)
         localStorage.setItem('university', this.university)
         localStorage.setItem('major', this.major)
         localStorage.setItem('graduationDate', this.graddate)
