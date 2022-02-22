@@ -9,17 +9,23 @@
 <script>
 import swal from 'sweetalert'
 export default{
+  props: ['questwo'],
   data () {
     return {
-      quesonedata: null
+      quesonedata: null,
+      storeprop: this.questwo
     }
   },
+  //   created () {
+  //     localStorage.getItem('QuestionOne')
+  //   },
   methods: {
     submit () {
       if (localStorage.getItem('QuestionOne')) {
         swal('', 'cannot enter twice', 'error')
       } else {
         localStorage.setItem('QuestionOne', this.quesonedata)
+        this.$emit('enablequesone', {storeprop: false})
         this.$emit('updatestep', 1)
         swal('', 'Question added', 'success')
       }

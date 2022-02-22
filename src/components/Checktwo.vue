@@ -7,7 +7,7 @@
                         </div>
                 </div>
             </div>
-                <button @click="addContact()">Save</button>
+                <!-- <button @click="addContact()">Save</button> -->
 
     </div>
 </template>

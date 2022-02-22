@@ -3,12 +3,12 @@
         <div id="checkboxes">
                 <div class="listcheck">
                         <div v-for="item in items" :key="item.id">
-                          <li><input type="checkbox" v-model="check" :value="item.text"> {{item.text}}</li>
+                          <li><input type="checkbox" :value="item.text" @change="addContact()"> {{item.text}}</li>
                         </div>
                 </div>
             </div>
                 <!-- <div>checked: {{checkedbox}}</div> -->
-                <button @click="addContact()">Save</button>
+                <!-- <button @click="addContact()">Save</button> -->
 
     </div>
 </template>

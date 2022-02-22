@@ -22,19 +22,32 @@
     </div>
 </template>
 <script>
+import swal from 'sweetalert'
 export default{
   methods: {
     gopersonal () {
       this.$router.push('/personal')
     },
     goprofile () {
-      this.$router.push('/profile')
+      if (localStorage.getItem('email') === true) {
+        this.$router.push('/profile')
+      } else {
+        swal('', 'Fill the required details', 'warning')
+      }
     },
     goexpertise () {
-      this.$router.push('/expertise')
+      if (localStorage.getItem('aboutYou') === true) {
+        this.$router.push('/expertise')
+      } else {
+        swal('', 'Fill the required details', 'warning')
+      }
     },
     gointerview () {
-      this.$router.push('/interview')
+      if (localStorage.getItem('checkone') == null) {
+        this.$router.push('/interview')
+      } else {
+        swal('', 'Fill the required details', 'warning')
+      }
     }
   }
 }

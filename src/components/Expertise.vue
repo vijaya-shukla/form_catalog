@@ -9,7 +9,7 @@
           </div>
         <div class="center">
          <Checkone v-if="activeTab === 'Checkone'" :source="checkedbox" @save="save"/>
-         <Checktwo v-if="activeTab === 'Checktwo'" :source="checkedbox" @save="save"/>
+         <Checktwo v-if="activeTab === 'Checktwo'"/>
          <Checkthree v-if="activeTab === 'Checkthree'"/>
         </div>
     </div>
@@ -39,7 +39,7 @@ export default{
     Checkthree
   },
   created () {
-    JSON.parse(localStorage.getItem('checkone'))
+    this.checkedbox = JSON.parse(localStorage.getItem('checkone'))
   },
   methods: {
     prev () {
@@ -54,21 +54,16 @@ export default{
       }
     },
     save (obj) {
-      const array = []
+      let array = []
+      debugger
       if (obj.number === 1) {
-        this.checkedbox.push(...obj.check)
-        array.push(...this.checkedbox)
-        localStorage.setItem('checkone', JSON.stringify(array))
-      } else if (obj.number === 2) {
-        console.log(this.checkedbox)
-        this.checkedbox.push(...obj.checkboxtwo)
-        array.push(...this.checkedbox)
+        this.checkedbox = obj.check
+        array = this.checkedbox
         localStorage.setItem('checkone', JSON.stringify(array))
       }
     }
   }
 }
-
 </script>
 <style scoped>
 .center{

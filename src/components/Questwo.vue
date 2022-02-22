@@ -8,9 +8,11 @@
 <script>
 import swal from 'sweetalert'
 export default{
+  props: ['questhree'],
   data () {
     return {
-      questwodata: null
+      questwodata: null,
+      storepropthree: this.questhree
     }
   },
   methods: {
@@ -21,6 +23,7 @@ export default{
         swal('', 'Enter Questions Above', 'error')
       } else {
         localStorage.setItem('QuestionTwo', this.questwodata)
+        this.$emit('enablequestwo', {storepropthree: false})
         this.$emit('updatestep', 2)
         swal('', 'Question added', 'success')
       }

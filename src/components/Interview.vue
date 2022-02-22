@@ -4,16 +4,16 @@
         <div class="divsidcen">
           <div class="sidenav">
             <ol>
-              <li @click="activeTab = 'Quesone'"><b>Question #1</b></li>
-              <li @click="activeTab = 'Questwo'" :disabled="localStorage.getItem('QuestionOne')"><b>Question #2</b></li>
-              <li @click="activeTab = 'Questhree'"><b>Question #3</b></li>
-              <li @click="activeTab = 'Quesfour'"><b>Question #4</b></li>
+              <li><button @click="activeTab = 'Quesone'" class="libutton" ><b>Question #1</b></button></li>
+              <li><button @click="activeTab = 'Questwo'" class="libutton" :disabled="questwo"><b>Question #2</b></button></li>
+              <li> <button @click="activeTab = 'Questhree'" class="libutton" :disabled="questhree"><b>Question #3</b></button></li>
+              <li><button @click="activeTab = 'Quesfour'" class="libutton" :disabled="quesfour"><b>Question #4</b></button></li>
             </ol>
           </div>
         <div class="center">
-          <Quesone v-if="activeTab === 'Quesone'" @updatestep="callonupdatestep"/>
-         <Questwo v-if="activeTab === 'Questwo'" @updatestep="callonupdatestep"/>
-         <Questhree v-if="activeTab === 'Questhree'" @updatestep="callonupdatestep"/>
+          <Quesone v-if="activeTab === 'Quesone'" @updatestep="callonupdatestep" :passprop="questwo" @enablequesone="enablequesone"/>
+         <Questwo v-if="activeTab === 'Questwo'" @updatestep="callonupdatestep" :passprop="questhree" @enablequestwo="enablequestwo"/>
+         <Questhree v-if="activeTab === 'Questhree'" @updatestep="callonupdatestep" :passprop="quesfour" @enablequesthree="enablequesthree"/>
          <Quesfour v-if="activeTab === 'Quesfour'"/>
         </div>
         </div>
@@ -32,7 +32,10 @@ import swal from 'sweetalert'
 export default{
   data () {
     return {
-      activeTab: 'Quesone'
+      activeTab: 'Quesone',
+      questwo: true,
+      questhree: true,
+      quesfour: true
     }
   },
   components: {
@@ -41,6 +44,36 @@ export default{
     Questwo,
     Questhree,
     Quesfour
+  },
+  computed: {
+    // questwo () {
+    //   if (localStorage.getItem('QuestionOne') !== '') {
+    //     return false
+    //   } else {
+    //     return true
+    //   }
+    // },
+    dabc () {
+      if (localStorage.getItem('QuestionOne')) { return false } else {
+        return true
+      }
+    },
+    enablethree () {
+      if (!this.questwo) { return false } else {
+        return true
+      }
+    },
+    abcde () {
+      if (localStorage.getItem('QuestionThree')) { return false } else {
+        return true
+      }
+    }
+  },
+  created () {
+    localStorage.getItem('QuestionOne')
+    localStorage.getItem('QuestionTwo')
+    localStorage.getItem('QuestionThree')
+    localStorage.getItem('QuestionFour')
   },
   methods: {
     prev () {
@@ -60,18 +93,32 @@ export default{
     questtwo () {
       localStorage.getItem('QuestionOne')
     },
-    questhree () {
-      localStorage.getItem('QuestionTwo')
-    },
-    quesfour () {
-      localStorage.getItem('QuestionThree')
-    },
+    // questhree () {
+    //   localStorage.getItem('QuestionTwo')
+    // },
+    // quesfour () {
+    //   localStorage.getItem('QuestionThree')
+    // },
     submit () {
       if (localStorage.getItem('email') && localStorage.getItem('aboutYou')) { swal('', 'Thank You for filling these details', 'success') } else {
         swal('', 'Fill all the details', 'error')
       }
+    },
+    enablequesone (obj) {
+      console.log('obj', obj)
+      // this.questwo = false
+      // obj.storeprop = 'false'
+      this.questwo = obj.storeprop
+    },
+    enablequestwo (obj) {
+      this.questhree = obj.storepropthree
+    },
+    enablequesthree (obj) {
+      this.quesfour = obj.storepropfour
     }
+
   }
+
 }
 </script>
 <style scoped>
@@ -116,6 +163,23 @@ margin-left:150px;
 
 }
 li{
+  margin-bottom: 10px;
+}
+.someclass {
+pointer-events: none;
+}
+.libutton{
+  border:none;
+  background-color: none;
+  font-size:15px;
   cursor: pointer;
+}
+button.libutton{
+  background-color: none;
+}
+.disabled {
+
+pointer-events: none
+
 }
 </style>
