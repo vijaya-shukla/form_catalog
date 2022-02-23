@@ -8,9 +8,9 @@
             <div @click="activeTab = 'Checkthree'" class="abc">Engineering</div>
           </div>
         <div class="center">
-         <Checkone v-if="activeTab === 'Checkone'" :source="checkedbox" @save="save"/>
-         <Checktwo v-if="activeTab === 'Checktwo'"/>
-         <Checkthree v-if="activeTab === 'Checkthree'"/>
+         <Checkone v-if="activeTab === 'Checkone'" @onGetCategory="onGetCategory"/>
+         <Checktwo v-if="activeTab === 'Checktwo'" @onGetCategorytwo="onGetCategorytwo"/>
+         <Checkthree v-if="activeTab === 'Checkthree'" @onGetCategoryThree="onGetCategoryThree"/>
         </div>
     </div>
 
@@ -29,7 +29,10 @@ export default{
   data () {
     return {
       activeTab: 'Checkone',
-      checkedbox: []
+      hello: [],
+      arrayfortwo: [],
+      arrayforthree: []
+      // newCheck: []
     }
   },
   components: {
@@ -39,29 +42,59 @@ export default{
     Checkthree
   },
   created () {
-    this.checkedbox = JSON.parse(localStorage.getItem('checkone'))
+    // this.checkedbox = JSON.parse(localStorage.getItem('checkOne'))
+    console.log('hiiiiiii', localStorage.getItem('checkOne'))
+    this.hello = JSON.parse(localStorage.getItem('checkOne'))
+    this.arrayfortwo = JSON.parse(localStorage.getItem('checkTwo'))
+    // this.arrayforthree = JSON.parse(localStorage.getItem('checkThree'))
+    // console.log('helllllooooooo', this.newCheck.split(','), 'hhahha')
   },
   methods: {
+    onGetCategory (categ) {
+      this.hello = categ
+      console.log('hello category', this.hello)
+      localStorage.setItem('checkOne', JSON.stringify(this.hello))
+    },
     prev () {
       this.$router.push('/profile')
     },
     next () {
-      if (localStorage.getItem('checkone') == null) {
+      if (localStorage.getItem('checkOne') == null) {
         swal('', 'Check some items', 'error')
       } else {
         // localStorage.setItem('quentinTarantino', JSON.stringify())
         this.$router.push('/interview')
       }
     },
-    save (obj) {
-      let array = []
-      debugger
-      if (obj.number === 1) {
-        this.checkedbox = obj.check
-        array = this.checkedbox
-        localStorage.setItem('checkone', JSON.stringify(array))
-      }
+    onGetCategorytwo (categTwo) {
+      this.arrayfortwo = categTwo
+      console.log('hello category for two', this.arrayfortwo)
+      localStorage.setItem('checkTwo', JSON.stringify(this.arrayfortwo))
+    },
+    onGetCategoryThree (categThree) {
+      this.arrayforthree = categThree
+      console.log('hello category for three', this.arrayforthree)
+      localStorage.setItem('checkThree', JSON.stringify(this.arrayforthree))
     }
+    // save (obj) {
+    //   let array = []
+    //   // debugger
+    //   if (obj.number === 1) {
+    //     debugger
+    //     this.checkedbox = obj.check
+    //     array = this.checkedbox
+    //     localStorage.setItem('checkOne', JSON.stringify(array))
+    //   }
+    // },
+    // savetwo (obj) {
+    //   let array = []
+    //   if (obj.number === 1) {
+    //     // debugger
+    //     this.checkedbox = obj.Checktwo
+    //     array = this.checkedbox
+    //     localStorage.setItem('checkone', JSON.stringify(array))
+    //   }
+    // }
   }
 }
 </script>

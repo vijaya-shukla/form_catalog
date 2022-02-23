@@ -10,8 +10,12 @@ import swal from 'sweetalert'
 export default{
   data () {
     return {
-      quesfourdata: null
+      quesfourdata: null,
+      qFour: null
     }
+  },
+  created () {
+    this.qFour = localStorage.getItem('QuestionFour')
   },
   methods: {
     submit () {

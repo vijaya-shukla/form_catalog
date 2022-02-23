@@ -35,7 +35,8 @@ export default{
       activeTab: 'Quesone',
       questwo: true,
       questhree: true,
-      quesfour: true
+      quesfour: true,
+      qOne: null
     }
   },
   components: {
@@ -69,12 +70,6 @@ export default{
       }
     }
   },
-  created () {
-    localStorage.getItem('QuestionOne')
-    localStorage.getItem('QuestionTwo')
-    localStorage.getItem('QuestionThree')
-    localStorage.getItem('QuestionFour')
-  },
   methods: {
     prev () {
       this.$router.push('/expertise')
@@ -100,7 +95,10 @@ export default{
     //   localStorage.getItem('QuestionThree')
     // },
     submit () {
-      if (localStorage.getItem('email') && localStorage.getItem('aboutYou')) { swal('', 'Thank You for filling these details', 'success') } else {
+      if (localStorage.getItem('email') && localStorage.getItem('aboutYou') && (localStorage.getItem('checkOne') || localStorage.getItem('checkTwo')) && (localStorage.getItem('QuestionOne') || localStorage.getItem('QuestionOne') || localStorage.getItem('QuestionTwo') || localStorage.getItem('QuestionThree') || localStorage.getItem('QuestionFour'))) {
+        swal('', 'Thank You for filling these details', 'success')
+        this.$router.push('/finalpage')
+      } else {
         swal('', 'Fill all the details', 'error')
       }
     },

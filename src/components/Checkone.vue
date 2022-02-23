@@ -3,46 +3,73 @@
         <div id="checkboxes">
                 <div class="listcheck">
                         <div v-for="item in items" :key="item.id">
-                          <li><input type="checkbox" :value="item.text" @change="addContact()"> {{item.text}}</li>
+                            <div>
+                              <!-- {{source}} -->
+                                <li><input type="checkbox" v-model="item.checked" @click="addContact(item.text, item.id)">{{item.text}}</li>
+                            </div>
                         </div>
                 </div>
             </div>
-                <!-- <div>checked: {{checkedbox}}</div> -->
-                <!-- <button @click="addContact()">Save</button> -->
-
     </div>
 </template>
 <script>
 export default{
-  props: ['source'],
+  // props: ['source'],
   data () {
     return {
-      check: this.source,
+      // check: this.source,
+      // courseCheck: [],
       items: [
-        {id: 0, text: 'C++'},
-        {id: 1, text: 'SQL'},
-        {id: 2, text: 'Database'},
-        {id: 3, text: 'c++'},
-        {id: 4, text: 'Php'},
-        {id: 5, text: 'AngularJs'},
-        {id: 6, text: 'ExpressJs'},
-        {id: 7, text: 'Ruby'},
-        {id: 8, text: 'Git'},
-        {id: 9, text: 'Sublime'},
-        {id: 10, text: 'C'},
-        {id: 11, text: 'MySQL'},
-        {id: 12, text: 'Assembly'},
-        {id: 13, text: 'Visual Basic'},
-        {id: 14, text: 'Heroku'},
-        {id: 15, text: 'JavaScript'}
+        {id: 0, text: 'C++', checked: false},
+        {id: 1, text: 'SQL', checked: false},
+        {id: 2, text: 'Database', checked: false},
+        {id: 3, text: 'c++', checked: false},
+        {id: 4, text: 'Php', checked: false},
+        {id: 5, text: 'AngularJs', checked: false},
+        {id: 6, text: 'ExpressJs', checked: false},
+        {id: 7, text: 'Ruby', checked: false},
+        {id: 8, text: 'Git', checked: false},
+        {id: 9, text: 'Sublime', checked: false},
+        {id: 10, text: 'C', checked: false},
+        {id: 11, text: 'MySQL', checked: false},
+        {id: 12, text: 'Assembly', checked: false},
+        {id: 13, text: 'Visual Basic', checked: false},
+        {id: 14, text: 'Heroku', checked: false},
+        {id: 15, text: 'JavaScript', checked: false}
 
-      ]
-      // checkedbox: []
+      ],
+      checkedbox: [],
+      flag: true
     }
   },
+  created () {
+    if (localStorage.getItem('checkOne')) {
+      this.checkedbox = JSON.parse(localStorage.getItem('checkOne'))
+      for (let i = 0; i < this.checkedbox.length; i++) {
+        for (let j = 0; j < this.items.length; j++) {
+          if (this.items[j].text === this.checkedbox[i]) {
+            this.items[j].checked = true
+          }
+        }
+      }
+    }
+    console.log('getting', localStorage.getItem('checkOne'))
+  },
   methods: {
-    addContact () {
-      this.$emit('save', {check: this.check, number: 1})
+    addContact (itemName, itemId) {
+      for (let i = 0; i <= this.checkedbox.length - 1; i++) {
+        if (this.checkedbox[i] === itemName) {
+          var newArray = this.checkedbox.filter((item) => item !== itemName)
+          this.checkedbox = newArray
+          this.flag = false
+        }
+      }
+      if (this.flag === true) {
+        this.checkedbox.push(itemName)
+      }
+      this.flag = true
+      console.log(this.checkedbox, 'final')
+      this.$emit('onGetCategory', this.checkedbox)
     }
   }
 }
@@ -58,12 +85,21 @@ export default{
   float: left;
 }
 .listcheck{
+  padding-left: 100px;
     height: 450px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     gap:60px;
 
+}
+li{
+  display:block;
+}
+input[type=checkbox]{
+  vertical-align: middle;
+  position: relative;
+  bottom: 1px;
 }
 .listcheck>* {
         flex: 0 0 5px;

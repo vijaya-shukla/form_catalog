@@ -13,12 +13,13 @@ export default{
   data () {
     return {
       quesonedata: null,
-      storeprop: this.questwo
+      storeprop: this.questwo,
+      qOne: null
     }
   },
-  //   created () {
-  //     localStorage.getItem('QuestionOne')
-  //   },
+  created () {
+    this.qOne = localStorage.getItem('QuestionOne')
+  },
   methods: {
     submit () {
       if (localStorage.getItem('QuestionOne')) {

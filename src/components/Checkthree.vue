@@ -2,32 +2,13 @@
     <div>
         <div id="checkboxes">
                 <div class="listcheck">
-                       <div><li><input type="checkbox"> C++</li></div>
-                        <div>CHECKTHREE</div>
-                        <div><input type="checkbox"> SQL</div>
-                        <div><input type="checkbox"> Database</div>
-                        <div><input type="checkbox"> C++</div>
-                        <div>CHECKTHREE</div>
-                        <div><input type="checkbox"> PHP</div>
-                        <div><input type="checkbox"> AngularJS</div>
-                        <div><input type="checkbox"> ExpressJS</div>
-                        <div><input type="checkbox"> Ruby</div>
-                        <div>CHECKTHREE</div>
-                        <div><input type="checkbox"> Git</div>
-                        <div><input type="checkbox"> Sublime</div>
-                        <div><input type="checkbox"> C</div>
-                        <div>CHECKTHREE</div>
-                        <div><input type="checkbox"> MySQL</div>
-                        <div><input type="checkbox"> Assembly</div>
-                        <div>CHECKTHREE</div>
-                        <div><input type="checkbox"> Visual Basic</div>
-                        <div><input type="checkbox"> Heroku</div>
-                        <div><input type="checkbox"> Javascript</div>
-                        <div>CHECKTHREE</div>
-
+                        <div v-for="item in items" :key="item.id">
+                            <div>
+                            <li><input type="checkbox" v-model="item.checked" @click="addContact(item.text, item.id)">{{item.text}}</li>
+                            </div>
+                        </div>
                 </div>
             </div>
-                <button @click="addContact()">Save</button>
 
     </div>
 </template>
@@ -35,14 +16,57 @@
 export default{
   data () {
     return {
-      checkboxthree: []
+      checkboxthree: [],
+      flag: true,
+      items: [
+        {id: 0, text: 'MATLAB', checked: false},
+        {id: 1, text: 'Swift', checked: false},
+        {id: 2, text: 'TypeScript', checked: false},
+        {id: 3, text: 'C#', checked: false},
+        {id: 4, text: 'Objective-C', checked: false},
+        {id: 5, text: 'Python', checked: false},
+        {id: 6, text: 'Go', checked: false},
+        {id: 7, text: 'A.NET', checked: false},
+        {id: 8, text: 'DataFlex', checked: false},
+        {id: 9, text: 'Bash', checked: false},
+        {id: 10, text: 'Ballerina', checked: false},
+        {id: 11, text: 'Darwin', checked: false},
+        {id: 12, text: 'R', checked: false},
+        {id: 13, text: 'Haskell', checked: false},
+        {id: 14, text: 'Perl', checked: false},
+        {id: 15, text: 'Clojure', checked: false}
+
+      ]
     }
   },
+  created () {
+    if (localStorage.getItem('checkThree')) {
+      this.checkboxthree = JSON.parse(localStorage.getItem('checkThree'))
+      for (let i = 0; i < this.checkboxthree.length; i++) {
+        for (let j = 0; j < this.items.length; j++) {
+          if (this.items[j].text === this.checkboxthree[i]) {
+            this.items[j].checked = true
+          }
+        }
+      }
+    }
+    console.log('getting three', localStorage.getItem('checkThree'))
+  },
   methods: {
-    addContact () {
-      const array = []
-      array.push(...this.checkboxthree)
-      localStorage.setItem('checkthree', JSON.stringify(array))
+    addContact (itemName, itemId) {
+      for (let i = 0; i <= this.checkboxthree.length - 1; i++) {
+        if (this.checkboxthree[i] === itemName) {
+          var newArray = this.checkboxthree.filter((item) => item !== itemName)
+          this.checkboxthree = newArray
+          this.flag = false
+        }
+      }
+      if (this.flag === true) {
+        this.checkboxthree.push(itemName)
+      }
+      this.flag = true
+      console.log(this.checkboxthree, 'three')
+      this.$emit('onGetCategoryThree', this.checkboxthree)
     }
   }
 }
@@ -58,6 +82,7 @@ export default{
   float: left;
 }
 .listcheck{
+  padding-left: 100px;
     height: 450px;
     display: flex;
     flex-direction: column;

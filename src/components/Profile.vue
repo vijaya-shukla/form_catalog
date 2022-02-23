@@ -13,24 +13,24 @@
          <br><br>
 
          <div class="text textstyle">Work History:</div>
-         <div v-for="(input, index) in addwork" :key="`${index}`">
+         <div v-for="(workobj, indx) in addwork" :key="indx+'work'">
              <div>
-                 <input id="askco" type="text" required placeholder="Company" v-model="addwork[index].work">
+                 <input id="askco" type="text" required placeholder="Company" v-model="workobj.work">
              <br><br>
              </div>
-          <div style='margin-left:150px;float:left;'> <span class="text"> Active From</span><input type="date" id="ask" name="Active From" v-model="addwork[index].activeFrom"><span class="text"> Active To</span><input type="date" id="ask" name="Active to" v-model="addwork[index].activeTo"></div>
+          <div style='margin-left:150px;float:left;'> <span class="text"> Active From</span><input type="date" id="ask" name="Active From" v-model="workobj.activeFrom"><span class="text"> Active To</span><input type="date" id="ask" name="Active to" v-model="workobj.activeTo"></div>
           <br><br>
+          </div>
           <div style='margin-left:120px' @click="addField(addwork)"> + Add another</div>
-        </div>
           <br><br>
           <div class="text textstyle">Education:</div>
-          <div  v-for="(input, index) in addeducation" :key="`${index}`">
+          <div  v-for="(input, index) in addeducation" :key="`${index}-edu`">
               <input id="asked" type="text" required placeholder="Education" v-model="addeducation[index].education">
           <br><br>
-          <div style='margin-left:150px;float:left;'><span class="text">Enrolled</span><input type="date" id="ask" name="Active From" v-model="addeducation[index].enrolled"><span class="text"> Graduated</span><input type="date" id="ask" name="Active to" v-model="addeducation[index].graduated"></div>
+          <div style='margin-left:150px;float:left;'><span class="text">Enrolled</span><input type="date" id="ask" name="Enrolled" v-model="addeducation[index].enrolled"><span class="text"> Graduated</span><input type="date" id="ask" name="Graduated" v-model="addeducation[index].graduated"></div>
           <br><br>
-          <div style='margin-left:120px' @click="addFields(addeducation)"> + Add another</div>
           </div>
+          <div style='margin-left:120px' @click="addFields(addeducation)"> + Add another</div>
       </form>
         </div>
     <button class="prevbutton" @click="prev()">Previous</button>
@@ -51,44 +51,30 @@ export default {
       enrolled: null,
       graduated: null,
       addwork: [{ work: '', activeFrom: '', activeTo: '' }],
-      addeducation: [{ ed: '' }],
+      addworkone: [],
+      // eslint-disable-next-line standard/object-curly-even-spacing
+      addeducation: [{education: '', graduated: '', enrolled: '' }],
+      addeducationone: [],
       addanotherjob: false,
       addanotherschool: false,
-      i: 0,
-      j: 0,
+      work: null,
       h: []
     }
   },
   created () {
     this.aboutYou = localStorage.getItem('aboutYou')
     this.teachingExperience = localStorage.getItem('teachingExperience')
-    let n = this.$route.params.j
-    for (let t = 0; t <= n; t++) {
-      console.log('education' + t, localStorage.getItem('education' + t))
-      this.addeducation[t].education = localStorage.getItem('education' + t)
-      this.addeducation[t].enrolled = localStorage.getItem('enrolled' + t)
-      this.addeducation[t].graduated = localStorage.getItem('graduated' + t)
-      console.log('hi' + this.addeducation[1].graduated)
+    if (localStorage.getItem('addWork') !== null) {
+      this.addwork = JSON.parse(localStorage.getItem('addWork'))
     }
-  },
-  mounted () {
-    let m = this.$route.params.i
-    console.log('m' + m)
-    for (let l = 0; l <= m; l++) {
-      console.log('work' + l, localStorage.getItem('work' + l))
-      this.addwork[l].work = localStorage.getItem('work' + l)
-      this.addwork[l].activeFrom = localStorage.getItem('active From' + l)
-      this.addwork[l].activeTo = localStorage.getItem('active To' + l)
-      console.log('hiii' + this.addwork[1].activeTo)
+    if (localStorage.getItem('addEducation') !== null) {
+      this.addeducation = JSON.parse(localStorage.getItem('addEducation'))
     }
   },
   components: {
     Navbar
   },
   methods: {
-    // addField (value, fieldType) {
-    //   fieldType.push({ value: '' })
-    // },
     prev () {
       this.$router.push('/personal')
     },
@@ -109,32 +95,33 @@ export default {
         })
         return
       }
-      if (this.addwork.activeTo < this.addwork.activeFrom) {
-        console.log('Hi')
-        swal({
-          text: 'Active To date should not be less than Active from date'
-        })
-        return
+      for (let i = 0; i < this.addwork.length; i++) {
+        if (this.addwork[i].activeTo < this.addwork[i].activeFrom) {
+          console.log('Hi')
+          swal({
+            text: 'Active To date should not be less than Active from date'
+          })
+          return
+        }
       }
-      if (this.addeducation.graduated < this.addeducation.enrolled) {
-        swal({
-          text: 'The graduated date must not be earlier than the enrolled date.'
-        })
-        return
+      for (let i = 0; i < this.addeducation.length; i++) {
+        if (this.addeducation[i].graduated < this.addeducation[i].enrolled) {
+          console.log('Hi')
+          swal({
+            text: 'The graduated date must not be earlier than the enrolled date.'
+          })
+          return
+        }
       }
       localStorage.setItem('aboutYou', this.aboutYou)
       localStorage.setItem('teachingExperience', this.teachingExperience)
-      localStorage.setItem('workHistory', this.addwork.workHistory)
-      localStorage.setItem('activeFrom', this.addwork.activeFrom)
-      localStorage.setItem('activeTo', this.addwork.activeTo)
-      localStorage.setItem('education', this.addeducation.education)
-      localStorage.setItem('enrolled', this.addeducation.enrolled)
-      localStorage.setItem('graduated', this.addeducation.graduated)
+      localStorage.setItem('addWork', JSON.stringify(this.addwork))
+      localStorage.setItem('addEducation', JSON.stringify(this.addeducation))
       this.$router.push('/expertise')
     },
-    addField (fieldType) {
-      const index = fieldType.length - 1
-      if (!fieldType[index].work || !fieldType[index].activeFrom || !fieldType[index].activeTo) {
+    addField () {
+      const index = this.addwork.length - 1
+      if (!this.addwork[index].work || !this.addwork[index].activeFrom || !this.addwork[index].activeTo) {
         this.addanotherjob = false
       } else {
         this.addanotherjob = true
@@ -142,14 +129,13 @@ export default {
         obj['work'] = ''
         obj['activeFrom'] = ''
         obj['activeTo'] = ''
-        fieldType.push(obj)
-        console.log(fieldType)
-        this.i = this.i + 1
+        this.addwork.push(obj)
+        console.log(this.addwork)
       }
     },
-    addFields (fieldType) {
-      const index = fieldType.length - 1
-      if (!fieldType[index].education || !fieldType[index].enrolled || !fieldType[index].graduated) {
+    addFields () {
+      const index = this.addeducation.length - 1
+      if (!this.addeducation[index].education || !this.addeducation[index].enrolled || !this.addeducation[index].graduated) {
         this.addanotherschool = false
       } else {
         this.addanotherschool = true
@@ -157,13 +143,13 @@ export default {
         obj['education'] = ''
         obj['enrolled'] = ''
         obj['graduated'] = ''
-        fieldType.push(obj)
-        console.log(fieldType)
-        this.j = this.j + 1
+        this.addeducation.push(obj)
+        console.log(this.addeducation)
       }
     }
   }
 }
+
 </script>
 <style scoped>
 .center {

@@ -3,7 +3,7 @@
         <div id="checkboxes">
                 <div class="listcheck">
                     <div v-for="item in items" :key="item.id">
-                          <li><input type="checkbox" v-model="checkboxtwo" :value="item.text"> {{item.text}}</li>
+                          <li><input type="checkbox" v-model="item.checked" @click="addContact(item.text, item.id)"> {{item.text}}</li>
                         </div>
                 </div>
             </div>
@@ -16,34 +16,61 @@ export default{
   props: ['source'],
   data () {
     return {
-      checkboxtwo: this.source,
+      checkboxtwo: [],
+      flag: true,
       items: [
-        {id: 0, text: 'Python'},
-        {id: 1, text: 'Arrays'},
-        {id: 2, text: 'Java'},
-        {id: 3, text: 'c++'},
-        {id: 4, text: 'Php'},
-        {id: 5, text: 'HTML'},
-        {id: 6, text: 'CSS'},
-        {id: 7, text: 'Machine language'},
-        {id: 8, text: 'Git'},
-        {id: 9, text: 'High level language'},
-        {id: 10, text: 'C'},
-        {id: 11, text: 'MySQL'},
-        {id: 12, text: 'C#'},
-        {id: 13, text: 'Visual Basic'},
-        {id: 14, text: 'procedural'},
-        {id: 15, text: 'functional'}
+        {id: 0, text: 'Python', checked: false},
+        {id: 1, text: 'Arrays', checked: false},
+        {id: 2, text: 'Java', checked: false},
+        {id: 3, text: 'c++', checked: false},
+        {id: 4, text: 'Php', checked: false},
+        {id: 5, text: 'HTML', checked: false},
+        {id: 6, text: 'CSS', checked: false},
+        {id: 7, text: 'Machine language', checked: false},
+        {id: 8, text: 'Git', checked: false},
+        {id: 9, text: 'High level language', checked: false},
+        {id: 10, text: 'C', checked: false},
+        {id: 11, text: 'MySQL', checked: false},
+        {id: 12, text: 'C#', checked: false},
+        {id: 13, text: 'Visual Basic', checked: false},
+        {id: 14, text: 'procedural', checked: false},
+        {id: 15, text: 'functional', checked: false}
 
       ]
     }
   },
+  created () {
+    if (localStorage.getItem('checkTwo')) {
+      this.checkboxtwo = JSON.parse(localStorage.getItem('checkTwo'))
+      for (let i = 0; i < this.checkboxtwo.length; i++) {
+        for (let j = 0; j < this.items.length; j++) {
+          if (this.items[j].text === this.checkboxtwo[i]) {
+            this.items[j].checked = true
+          }
+        }
+      }
+    }
+    console.log('getting', localStorage.getItem('checkOne'))
+  },
   methods: {
-    addContact () {
-      this.$emit('save', {checkboxtwo: this.checkboxtwo, number: 2})
+    addContact (itemName, itemId) {
+    //   this.$emit('savetwo', {checkboxtwo: this.checkboxtwo, number: 1})
     //   const array = []
     //   array.push(...this.checkboxtwo)
     //   localStorage.setItem('checktwo', JSON.stringify(array))
+      for (let i = 0; i <= this.checkboxtwo.length - 1; i++) {
+        if (this.checkboxtwo[i] === itemName) {
+          var newArray = this.checkboxtwo.filter((item) => item !== itemName)
+          this.checkboxtwo = newArray
+          this.flag = false
+        }
+      }
+      if (this.flag === true) {
+        this.checkboxtwo.push(itemName)
+      }
+      this.flag = true
+      console.log(this.checkboxtwo, 'finalfortwo')
+      this.$emit('onGetCategorytwo', this.checkboxtwo)
     }
   }
 }
@@ -58,6 +85,8 @@ export default{
   float: left;
 }
 .listcheck{
+  padding-left: 100px;
+
     height: 450px;
     display: flex;
     flex-direction: column;

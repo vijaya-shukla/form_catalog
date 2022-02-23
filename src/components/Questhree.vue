@@ -12,8 +12,12 @@ export default{
   data () {
     return {
       questhreedata: null,
-      storepropfour: this.quesfour
+      storepropfour: this.quesfour,
+      qThree: null
     }
+  },
+  created () {
+    this.qThree = localStorage.getItem('QuestionThree')
   },
   methods: {
     submit () {
