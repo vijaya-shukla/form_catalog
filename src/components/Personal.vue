@@ -2,35 +2,49 @@
     <div>
         <div><Navbar/></div>
         <div class="center">
-            <div class="text"><label>Name <sup style="color:red;">*</sup></label><input id="one" type="text" required placeholder="Name" v-model="name"></div>
-            <div class="text">Email <sup style="color:red;">*</sup><input id="two" type="text" placeholder="Email" required v-model="email" @input="isEmailValid">
-           <div>
-               <sub v-show="wrongEmail" style="color:red">Incorrect email address <br> Ex:abc@gmail.com</sub>
-               </div>
-            </div>
-            <div class="text">What are you?<input class="univstudent" value="University Student" type="radio" name="radio" v-model="unipro"/>University Student <input type="radio" value="Professional" name="radio" v-model="unipro"/>Professional</div>
-            <div class="text">University <sup style="color:red;">*</sup><input id="two" type="text" required placeholder="University" v-model="university"></div>
-            <div class="text">Major <sup style="color:red;">*</sup><input id="two" type="text" required placeholder="Major" v-model="major"></div>
-                <div id= "text1" class="selectdiv">
-                Graduation Date <sup style="color:red;">*</sup><input type="date" id="two" placeholder="Graduation Date" v-model="graddate">
-                </div>
-            <div id="text1">Do You have a tax id? <span> <input type="radio" value="I have a tax ID" name="I have a tax ID" v-model="taxvalue"/>I have a tax id</span> <span><input type="radio" value="I don't have a tax ID" name="I don't have a tax ID" v-model="taxvalue"/>I don't have a tax id</span></div>
-            <div id="text1">Mobile <sup style="color:red;">*</sup><input id="two" type="text" required="" placeholder="Mobile" v-model="value" @input="acceptNumber"></div>
+            <form action="#" id='testform' name='testform' >
 
+         <div class="text textstyle">Name:<sup style="color:red;">*</sup></div>
+         <input id="nameid" type="text" required placeholder="Name" v-model="name">
+         <br><br>
+
+         <div class="text textstyle">Email:<sup style="color:red;">*</sup></div>
+         <input id="emailid" type="text" placeholder="Email" required v-model="email" @input="isEmailValid">
+         <div class="subemail">
+               <sub v-show="wrongEmail" style="color:red">Incorrect email address <br> Ex:abc@gmail.com</sub>
+        </div>
+         <br><br>
+         <div class="text textstyle">What are you?</div>
+         <input class="nameid" value="University Student" type="radio" name="radio" v-model="unipro">University Student <input type="radio" value="Professional" name="radio" v-model="unipro">Professional
+          <br><br>
+          <div class="text textstyle">University<sup style="color:red;">*</sup></div>
+         <input id="uniid" type="text" required placeholder="University" v-model="university">
+          <br><br>
+          <div class="text textstyle">Major<sup style="color:red;">*</sup></div>
+        <input id="majorid" type="text" required placeholder="Major" v-model="major">
+          <br><br>
+          <div class="text textstyle">Graduation <sup style="color:red;">*</sup></div>
+        <input type="date" id="graid" placeholder="Graduation Date" v-model="graddate">
+          <br><br>
+          <div class="text textstyle">Do you have tax id?</div>
+        <input type="radio" value="I have a tax ID" name="I have a tax ID" v-model="taxvalue"/><span>I have a tax id</span> <span><input type="radio" value="I don't have a tax ID" name="I don't have a tax ID" v-model="taxvalue"/>I don't have a tax id</span>
+          <br><br>
+          <div class="text textstyle">Mobile <sup style="color:red;">*</sup></div>
+          <input id="nameid" type="text" required="" placeholder="Mobile" v-model="value" @input="acceptNumber">
+          <br><br>
+            </form>
         </div>
         <button class="nextbutton" @click="next()">Next</button>
-        <!-- <div class="form-group center">
-            <label for="Name">Name</label> <input id="one" type="text" required placeholder="Name">
-        </div> -->
     </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue'
 import swal from 'sweetalert'
-// eslint-disable-next-line no-useless-escape
-const emailRe = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-export default{
+const emailRe =
+  // eslint-disable-next-line no-useless-escape
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+export default {
   data () {
     return {
       name: null,
@@ -52,7 +66,6 @@ export default{
     this.university = localStorage.getItem('university')
     this.major = localStorage.getItem('major')
     this.taxvalue = localStorage.getItem('taxid')
-    // this.radiovalue = localStorage.getItem('radio')
     this.graddate = localStorage.getItem('graduationDate')
   },
   components: {
@@ -67,25 +80,23 @@ export default{
       }
     },
     acceptNumber () {
-      var x = this.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/)
-      this.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '')
+      var x = this.value
+        .replace(/\D/g, '')
+        .match(/(\d{0,3})(\d{0,3})(\d{0,4})/)
+      this.value = !x[2]
+        ? x[1]
+        : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '')
     },
-    // validateEmail () {
-    //   // eslint-disable-next-line no-useless-escape
-    //   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
-    //     this.msg['email'] = 'Please enter a valid email address'
-    //   } else {
-    //     this.msg['email'] = ''
-    //   }
-    // },
     next () {
       console.log(this.tax)
-      if (this.name === null ||
+      if (
+        this.name === null ||
         this.email === null ||
         this.value === null ||
         this.university === null ||
         this.major === null ||
-        this.graddate === null) {
+        this.graddate === null
+      ) {
         swal({
           text: 'Please fill all the required details',
           icon: 'warning'
@@ -107,44 +118,77 @@ export default{
 </script>
 
 <style scoped>
-.center{
-    margin: auto;
-    margin-top:40px;
-    width: 50%;
-    /* border: 2px solid black; */
-    padding: 10px;
-    height:450px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
+.center {
+  width: 50%;
+  margin-top: 40px;
+  margin-left: 346px;
+  overflow: scroll;
+  height: 450px;
+  padding-top: 10px;
+  /* background-color: rgba(245, 216, 178, 0.911); */
 }
-.text{
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-style: italic;
-    font-weight: bold;
+.center > div {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  font-weight: bold;
+  display: inline;
 }
-#text1{
-  font-family: Georgia, 'Times New Roman', Times, serif;
-    font-style: italic;
-    font-weight: bold;
+#ask {
+  margin-left: 30px;
 }
-#one{
-    margin-left: 30px;
+.addano {
+  display: flex;
+  padding-left: 300px;
+  padding-top: 20px;
 }
-#two{
-    margin-left: 30px;
+.work {
+  display: flex;
 }
-.univstudent{
-    margin-left: 15px;
+.nextbutton {
+  margin-left: 500px;
+  height: 40px;
+  width: 80px;
+  border: none;
+  background-color: rgba(238, 143, 20, 0.911);
+  border-radius: 25px;
+  cursor: pointer;
 }
-.nextbutton{
-    margin-left:500px;
-    height:40px;
-    width:80px;
-    border:none;
-    background-color:rgba(238, 143, 20, 0.911);
-    border-radius: 25px;
-    cursor: pointer;
+.prevbutton {
+  height: 40px;
+  width: 80px;
+  border: none;
+  background-color: rgba(238, 143, 20, 0.911);
+  border-radius: 25px;
+  cursor: pointer;
+}
+.text {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  font-weight: bold;
+}
+#nameid {
+  margin-left: 80px;
+}
+#asked {
+  margin-left: 20px;
+}
+#emailid{
+    margin-left: 80px;
+}
+.textstyle {
+  margin-left: 120px;
+  float: left;
+}
+#uniid{
+    margin-left:60px;
+}
+#majorid{
+    margin-left: 95px;
+}
+#graid{
+    margin-left: 50px;
+}
+.subemail{
+    margin-left: 250px;
 }
 </style>

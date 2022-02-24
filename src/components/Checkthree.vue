@@ -88,6 +88,7 @@ export default{
     flex-direction: column;
     flex-wrap: wrap;
     gap:30px;
+    align-items: flex-start;
 
 }
 .listcheck>* {

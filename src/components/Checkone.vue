@@ -4,7 +4,6 @@
                 <div class="listcheck">
                         <div v-for="item in items" :key="item.id">
                             <div>
-                              <!-- {{source}} -->
                                 <li><input type="checkbox" v-model="item.checked" @click="addContact(item.text, item.id)">{{item.text}}</li>
                             </div>
                         </div>
@@ -14,11 +13,8 @@
 </template>
 <script>
 export default{
-  // props: ['source'],
   data () {
     return {
-      // check: this.source,
-      // courseCheck: [],
       items: [
         {id: 0, text: 'C++', checked: false},
         {id: 1, text: 'SQL', checked: false},
@@ -91,6 +87,7 @@ export default{
     flex-direction: column;
     flex-wrap: wrap;
     gap:60px;
+    align-items: flex-start;
 
 }
 li{

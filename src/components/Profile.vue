@@ -157,7 +157,9 @@ export default {
   margin-top:40px;
   margin-left:346px;
   overflow:scroll;
-  height: 500px;
+  height: 520px;
+  padding-top: 10px;
+  /* background-color: rgba(245, 216, 178, 0.911); */
 }
 .center > div {
   font-family: Georgia, "Times New Roman", Times, serif;
@@ -192,6 +194,7 @@ export default {
     background-color:rgba(238, 143, 20, 0.911);
     border-radius: 25px;
     cursor: pointer;
+
 }
 .text{
     font-family: Georgia, 'Times New Roman', Times, serif;

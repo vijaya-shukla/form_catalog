@@ -1,7 +1,7 @@
 <template>
     <div class="navbar">
         <div>
-        <button @click="gopersonal()">1</button>
+        <button id="personal" @click="gopersonal()">1</button>
         <p>Personal</p>
         </div>
         <hr class="horizontal"/>
@@ -22,35 +22,23 @@
     </div>
 </template>
 <script>
-import swal from 'sweetalert'
 export default{
   methods: {
     gopersonal () {
       this.$router.push('/personal')
     },
     goprofile () {
-      if (localStorage.getItem('email') === true) {
-        this.$router.push('/profile')
-      } else {
-        swal('', 'Fill the required details', 'warning')
-      }
+      this.$router.push('/profile')
     },
     goexpertise () {
-      if (localStorage.getItem('aboutYou') === true) {
-        this.$router.push('/expertise')
-      } else {
-        swal('', 'Fill the required details', 'warning')
-      }
-    },
-    gointerview () {
-      if (localStorage.getItem('checkone') == null) {
-        this.$router.push('/interview')
-      } else {
-        swal('', 'Fill the required details', 'warning')
-      }
+      this.$router.push('/expertise')
     }
+  },
+  gointerview () {
+    this.$router.push('/interview')
   }
 }
+
 </script>
 
 <style scoped>
@@ -71,11 +59,11 @@ button{
     color:rgba(238, 143, 20, 0.911);
     cursor: pointer;
 }
-/* button:hover{
+button:hover{
     background-color:rgba(238, 143, 20, 0.911);
     color:white;
-} */
-button:focus{
+}
+ button:focus{
     background-color:rgba(238, 143, 20, 0.911);
     color:white;
 }

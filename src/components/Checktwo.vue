@@ -86,12 +86,12 @@ export default{
 }
 .listcheck{
   padding-left: 100px;
-
     height: 450px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     gap:30px;
+    align-items: flex-start;
     /* width: calc(100% + 12px);
     margin: -12px 0 0 -12px; */
 
